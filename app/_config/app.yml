@@ -1,0 +1,7 @@
+SilverStripe\Security\Member:
+  extensions:
+    - MemberExtension
+    
+SilverStripe\ORM\FieldType\DBCurrency:
+  currency_symbol: R
+  

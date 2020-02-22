@@ -1,0 +1,66 @@
+<div class="row">
+	<h1 class="mt-5">$Title</h1>
+	$Content
+</div>
+<% if $PubLeads %>
+<% loop $PubLeads %>
+<div class="row border" style="width:100%;background:#fff;padding-top:1em;padding-bottom:1em;margin:1em auto;">
+
+
+	<div class="col-md-12">
+		<span style="font-size:1.25em" class="badge badge-light">ref #$ID</span><br><% if $SellStage == 0 %><span style="font-size:1.25em" class="text-uppercase badge badge-success"><i class="fa fa-star"></i> <strong>exclusive sale</strong> <i class="fa fa-star"></i></span><% else %><span class="text-uppercase badge badge-light"><i class="fa fa-star"></i> <strong>not exclusive</strong> <i class="fa fa-star"></i></span><% end_if %>
+		<p class="small">This lead was posted <strong>$LeadAge</strong> ago,
+			<% if $SellStage == 0 %>
+			and is has never been purchased.
+			<% else_if $SellStage == 1 %>
+			but has been purchased once before.
+			<% else_if $SellStage >= 2 %>
+			but has been purchased twice before.
+			<% end_if %></p>
+		</div>
+		<div class="col-sm-12">
+			<hr>
+			<p style="font-size:1.2em;margin-bottom:0">An <strong><% if $Employment == "Yes" %>employed<% else %>unemployed<% end_if %></strong> person<% if $BadCredit == "Yes" %> with <strong>bad credit</strong><% end_if %> from <strong>$City</strong> is applying for <strong>$LoanType</strong> of <strong>$Top.FormatCurrency($LoanAmount)</strong></p>
+			<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collpase-$ID" aria-expanded="false" aria-controls="collpase-$ID">Show details</button>
+		</div>
+
+
+
+
+
+
+		<div class="col-sm-12 small collapse multi-collapse" id="collpase-$ID">
+			<hr>
+			<ul style="padding-left:1em">
+				<li><span>Name</span> <strong>$FirstName $HideInfo($LastName)</strong></li>
+				<li><span>Cellphone</span> <strong>$HideInfo($Mobile)</strong> <span class="text-uppercase badge badge-secondary">not verified</span></li>
+				<li><span>Email</span> <strong>$HideInfo($Email)</strong> <span class="text-uppercase badge badge-secondary">not verified</span></li>
+				<li><span>Employment</span> <strong>$Employment</strong> <span class="text-uppercase badge badge-secondary">not verified</span></li>
+				<li><span>Bad Credit</span> <strong>$BadCredit</strong> <span class="text-uppercase badge badge-secondary">not verified</span></li>
+			</ul>
+			<a href="$Link"><i class="fa fa-search"></i> View Full Application Details</a>
+		</div>
+			
+		<div class="col-sm-12">
+			<hr>
+			<% if $SellStage != 0 %>
+			<span>was <strike>$Top.FormatCurrency($SalePrice)</strike><br><span>now $Top.FormatCurrency($NewSalePrice)</span>
+			<% else %>
+			<span>$Top.FormatCurrency($NewSalePrice)</span>
+			<% end_if %>
+			<a class="btn <% if $CurrentMember && $MemberPurchased %>btn-warning disabled<% else %>btn-primary<% end_if %>" href="/lead/purchase/$ID"><% if $CurrentMember && $MemberPurchased %>Already Purchased<% else %>Buy Now<% end_if %></a>
+		</div>
+			
+		<div class="col-sm-12 small">
+			<hr>
+			<% if $SellStage == 0 %>
+			<span>*This lead has never been purchased.</span>
+			<% else_if $SellStage == 1 %>
+			<span>*This lead has been purchased once.</span>
+			<% else_if $SellStage >= 2 %>
+			<span>*This lead has been purchased twice.</span>
+			<% end_if %>
+		</div>
+	</div>
+	<% end_loop %>
+	<% end_if %>
